@@ -41,3 +41,33 @@ body {
   margin-bottom: 1rem;
 }
     
+
+@keyframes slidedown {
+  from {
+    max-height: 0;
+    opacity: 0;
+  }
+  to {
+    max-height: 500px;
+    opacity: 1;
+  }
+}
+
+@keyframes slideup {
+  from {
+    max-height: 500px;
+    opacity: 1;
+  }
+  to {
+    max-height: 0;
+    opacity: 0;
+  }
+}
+
+.animate-slidedown {
+  animation: slidedown 0.4s ease-in-out;
+}
+
+.animate-slideup {
+  animation: slideup 0.4s ease-in-out;
+}
