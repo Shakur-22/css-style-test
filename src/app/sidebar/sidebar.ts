@@ -5,6 +5,17 @@ import { Ripple } from 'primeng/ripple';
 import { AvatarModule } from 'primeng/avatar';
 import { StyleClass } from 'primeng/styleclass';
 import { Drawer } from 'primeng/drawer';
+import { CategoryService } from '../category.service';
+
+
+interface Expense {
+  id: number;
+  name: string;
+  amount: number;
+  date: string;
+  category: string;
+  description: string;
+}
 
 @Component({
     selector: 'sidebar',
@@ -26,7 +37,15 @@ export class Sidebar {
     test() {
       alert('test')
     }
+
+
+activeCategory = 'All Categories'
+
+  constructor(public categoryService: CategoryService) {}
+
+  selectCategory(category: string) {
+    this.categoryService.activeCategory = category;
+  }
+
+
 }
-
-
-

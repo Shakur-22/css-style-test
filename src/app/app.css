@@ -1,2 +1,46 @@
 @import "primeicons/primeicons.css";
 
+.app-wrapper {
+    display: flex;
+    border: 10px solid rgb(119, 48, 40);
+    flex-direction: column;
+    
+}
+
+.sidebar-nav {
+    border: 10px solid rgb(44, 100, 148);
+}
+
+.left-box {
+    justify-content: left;
+    border: 10px solid mistyrose;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.left-box ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+    flex: 1;
+
+}
+
+.leftbox-item {
+    border: 10px solid red;
+    flex: 1;
+
+
+}
+
+.rightbox-item {
+    border: 10px solid rgb(5, 9, 24);
+    flex: 1;
+
+}
+
+
+
