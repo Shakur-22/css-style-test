@@ -1,36 +1,83 @@
-
-
-<div class="app-wrapper">
-
-
+<html lang="en" class="p-dark">
     
-    <div class="sidebar-nav">
-        <div style="display: flex; gap: 10px;">
-            <sidebar></sidebar>
-            <app-darkmode></app-darkmode>
+    
+<div class="app-wrapper">
+    
+    <div>
+    
+    </div>
+    <!-- Top Bar Section -->
+        <div class="sidebar-nav">
+            <div style="display: flex; gap: 10px;">
+                <sidebar [addForm]="addForm"
+                [selectedCategory]="selectedCategory"
+                (changeCategory)="changeCategory($event)"
+                (toggleForm)="toggleForm()">
+                </sidebar>
+                <app-darkmode></app-darkmode>
+                <p-button icon="pi pi-bookmark" (onClick)="dashboard()" />
+            </div>
         </div>
+    
+     <!-- Add Form Section  -->
+            <div *ngIf="addForm">
+                <input type="text" pInputText [(ngModel)]="newExpense.name" placeholder="Purchase"/> <br>
+                <p-inputnumber [(ngModel)]="newExpense.amount" inputId="currency-us" mode="currency" currency="USD" locale="en-US" /> <br>
+                <p-select [options]="Categories" [(ngModel)]="newExpense.category" placeholder="Select a Category" class="w-full md:w-56" /> <br>
+                <p-datepicker [(ngModel)]="newExpense.date" placeholder="Date"/> <br>
+                <input type="text" pInputText [(ngModel)]="newExpense.description" placeholder="Description"/> <br>
+                <p-button class="save" (onClick)="addExpense()">Save</p-button>
+                <p-button class="cancel" (onClick)="toggleForm()">Cancel</p-button>
+    
+    
+            </div>
+    
+    <!-- Filtered expenses Section  -->
+        <div class="left-box" *ngIf="Categories.includes(selectedCategory) && !addForm">
+                <ul>
+                    Expenses
+                    <li class="leftbox-item" *ngFor="let i of filterCategory(selectedCategory)">
+                        <span  (click)="id = i.id">Purchase: {{i.name}} <br> Amount: {{i.amount}}</span> <p-button class="delete" (onClick)="delete(i.id)">Delete</p-button>
+                    </li>
+                </ul>
+                 <ul>
+                    <li class="rightbox-item" *ngFor="let i of filterID(id)">
+                        Details <br>
+                        Date: {{i.date}} <br>
+                        Category: {{i.category}} <br>
+                        Description: {{i.description}}
+                    </li>
+                </ul>
+        </div>
+    
+    <!-- All Expenses Section  -->
+        <div class="left-box" *ngIf="selectedCategory === 'All Expenses' && !addForm">
+                <ul>
+                    Expenses
+                    <li class="leftbox-item" *ngFor="let i of expenses">
+                        <span (click)="id = i.id">Purchase: {{i.name}} <br> Amount: {{i.amount}}</span> <p-button class="delete" (onClick)="delete(i.id)">Delete</p-button>
+                    </li>
+                </ul>
+                 <ul>
+                    <li class="rightbox-item" *ngFor="let i of filterID(id)">
+                        Details <br>
+                        Date: {{i.date}} <br>
+                        Category: {{i.category}} <br>
+                        Description: {{i.description}}
+                    </li>
+                </ul>
+        </div>
+    <div class="cards">
+            <div class="chart-card" *ngIf='isDashboard && selectedCategory === "" ' >
+                <app-chart [categoryTotals]="categoryTotals"></app-chart>
+                <div class="total">Total: {{grandTotal}} </div>
+            </div>
+       
     </div>
-
-    <div class="left-box">
-        <ul>
-            Expenses
-            <li class="leftbox-item" *ngFor="let i of filterCategory(selectedCategory)" (click)="id = i.id">
-                Purchase: {{i.name}} <br> Amount: {{i.amount}}
-            </li>
-        </ul>
-
-         <ul>
-            <li class="rightbox-item" *ngFor="let i of filterID(id)">
-                Details <br>
-                Date: {{i.date}} <br>
-                Category: {{i.category}} <br>
-                Description: {{i.description}}
-            </li>
-        </ul>
-
-    </div>
-
-
-
+    
 </div>
     
+    
+    
+    
+</html>

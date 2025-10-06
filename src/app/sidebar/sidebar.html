@@ -11,13 +11,15 @@
                     <p-button type="button" (click)="closeCallback($event)" icon="pi pi-times" rounded="true" outlined="true" styleClass="h-8 w-8"></p-button>
                 </span>
             </div>
-            <div class="overflow-y-auto">
+
                     <li>
                         <a pRipple class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
                         <i class="pi pi-money-bill mr-2"></i>
-                        <span class="font-medium" (click)="closeCallback($event)">Add Expense</span>
+                        <span class="font-medium"(click)="closeCallback($event)" (click)="onAddExpenseClick()">Add Expense</span>
                         </a>
                     </li>
+                    <li></li>
+            <div class="overflow-y-auto">
                 <ul class="list-none p-4 m-0">
                     <li>
                         <div
@@ -36,36 +38,38 @@
                             <li>
                                 <a pRipple class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
                                     <i class="pi pi-dollar mr-2"></i>
-                                    <span class="font-medium"  (click)="selectCategory('All Expenses')" (click)="closeCallback($event)">All Expenses</span>
+                                    <span class="font-medium"  (click)="onChangeCategory('All Expenses')" (click)="closeCallback($event)">All Expenses</span>
                                 </a>
                             </li>
                             <li>
                                 <a pRipple class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
                                     <i class="pi pi-money-bill mr-2"></i>
-                                    <span class="font-medium" (click)="selectCategory('Recurring Bills')" (click)="closeCallback($event)">Recurring Bills</span>
+                                    <span class="font-medium" (click)="onChangeCategory('Recurring Bills')" (click)="closeCallback($event)">Recurring Bills</span>
                                 </a>
                             </li>
                             <li>
                                 <a pRipple class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
                                     <i class="pi pi-apple mr-2"></i>
-                                    <span class="font-medium" (click)="selectCategory('Food')" (click)="closeCallback($event)">Food</span>
+                                    <span class="font-medium" (click)="onChangeCategory('Food')" (click)="closeCallback($event)">Food</span>
                                 </a>
                             </li>
                             <li>
                                 <a pRipple class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
                                     <i class="pi pi-video mr-2"></i>
-                                    <span class="font-medium" (click)="selectCategory('Entertainment')" (click)="closeCallback($event)">Entertainment</span>
+                                    <span class="font-medium" (click)="onChangeCategory('Entertainment')" (click)="closeCallback($event)">Entertainment</span>
                                 </a>
                             </li>
                             <li>
                                 <a pRipple class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
                                 <i class="pi pi-youtube mr-2"></i>
-                                <span class="font-medium" (click)="selectCategory('Subscriptions')" (click)="closeCallback($event)">Subscriptions</span>
+                                <span class="font-medium" (click)="onChangeCategory('Subscriptions')" (click)="closeCallback($event)">Subscriptions</span>
                                 </a>
                             </li>
                         </ul>
                     </li>
-                </ul>            
+                </ul>
+
+            
             </div>
         </div>
     </ng-template>

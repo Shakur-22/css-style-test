@@ -12,10 +12,17 @@ import { dropmenu } from "./dropmenu/dropmenu";
 import { Sidebar } from './sidebar/sidebar';
 import { CommonModule } from '@angular/common';
 import { CategoryService } from './category.service';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { DatePickerModule } from 'primeng/datepicker';
+import { SelectModule } from 'primeng/select';
+import { appChart } from "./chart/chart";
+
+
 
 
 interface Expense {
-  id: number;
+  id: string;
   name: string;
   amount: number;
   date: string;
@@ -24,9 +31,11 @@ interface Expense {
 }
 
 
+
+
 @Component({
   selector: 'app-root',
-  imports: [ButtonModule, SplitButtonModule, ToggleButton, FormsModule, Darkmode, speeddial, dropmenu, Sidebar, CommonModule],
+  imports: [ButtonModule, SplitButtonModule, FormsModule, Darkmode, Sidebar, CommonModule, InputNumberModule, InputTextModule, DatePickerModule, SelectModule, ChartModule, appChart],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -35,18 +44,58 @@ export class App {
 
 
 
-constructor(public categoryService: CategoryService) {}
+  ngOnInit() {
+    this.loadExpenses();
+  }
 
-get selectedCategory() {
-  return this.categoryService.activeCategory;
+selectedCategory = ''
+
+addForm = false
+
+isDashboard = true
+
+
+
+toggleForm() {
+  this.addForm = !this.addForm;
+  this.isDashboard = !this.isDashboard
 }
 
-id = 0
+generateId(): string {
+  return Math.random().toString(36).substring(2, 7);
+}
+addExpense() {
+  this.expenses.push(this.newExpense)
+  this.saveExpenses()
+  this.newExpense =   {
+    id: this.generateId(),
+    name: "",
+    amount: 0,
+    date: "",
+    category: "",
+    description: ""
+  }
+  this.addForm = !this.addForm;
+  this.isDashboard = !this.isDashboard
+}
 
+newExpense =
+  {
+    id: 'andew',
+    name: "",
+    amount: 0,
+    date: "",
+    category: "",
+    description: ""
+  }
+
+Categories = ['Food', 'Subscriptions', 'Entertainment', 'Recurring Bills']
+id = ''
+allexpenses = false
 
 expenses: Expense[] = [
   {
-    id: 1,
+    id: 'abt92',
     name: "Netflix",
     amount: 15.99,
     date: "2025-10-01",
@@ -54,7 +103,7 @@ expenses: Expense[] = [
     description: "Monthly streaming subscription"
   },
   {
-    id: 2,
+    id: 'eidmn',
     name: "Spotify Premium",
     amount: 10.99,
     date: "2025-10-01",
@@ -62,7 +111,7 @@ expenses: Expense[] = [
     description: "Music streaming service"
   },
   {
-    id: 3,
+    id: '48ur5',
     name: "Electric Bill",
     amount: 120.50,
     date: "2025-10-05",
@@ -70,7 +119,7 @@ expenses: Expense[] = [
     description: "Monthly electricity payment"
   },
   {
-    id: 4,
+    id: 'dhfbx',
     name: "Internet Service",
     amount: 79.99,
     date: "2025-10-08",
@@ -78,7 +127,7 @@ expenses: Expense[] = [
     description: "Monthly internet bill"
   },
   {
-    id: 5,
+    id: 'epa25',
     name: "Grocery Shopping",
     amount: 145.30,
     date: "2025-10-10",
@@ -86,7 +135,7 @@ expenses: Expense[] = [
     description: "Weekly groceries"
   },
   {
-    id: 6,
+    id: 'qnc93',
     name: "Restaurant Dinner",
     amount: 67.25,
     date: "2025-10-12",
@@ -94,7 +143,7 @@ expenses: Expense[] = [
     description: "Dinner with friends"
   },
   {
-    id: 7,
+    id: 'mksoe',
     name: "Movie Tickets",
     amount: 32.00,
     date: "2025-10-15",
@@ -102,7 +151,7 @@ expenses: Expense[] = [
     description: "Two tickets for new movie"
   },
   {
-    id: 8,
+    id: 'eus3n',
     name: "Concert Tickets",
     amount: 89.00,
     date: "2025-10-18",
@@ -112,10 +161,7 @@ expenses: Expense[] = [
 ]
 
 
-  printCategory() {
-    console.log(this.categoryService.activeCategory);
-    // Use this.categoryService.activeCategory anywhere
-  }
+
 
 
 
@@ -124,30 +170,66 @@ expenses: Expense[] = [
     return this.expenses.filter(expense => expense.category == category);
   }
 
-  filterID(id: number) {
+  filterID(id: string) {
     return this.expenses.filter(expense => expense.id == id);
   }
 
+  delete(id: string) {
+    this.expenses = this.expenses.filter(item => item.id !== id)
+    this.saveExpenses()
+}
 
-  save() {
-    alert('test')
+
+
+  dashboard() {
+    this.addForm = false;
+    this.selectedCategory = ''
+    this.isDashboard = true
+    
   }
 
- items: MenuItem[] = [
-  {
-    label: 'Test',
-    icon: 'pi pi-refresh',
-    command: () => {
-      this.save();
-      }
+  changeCategory(category: string) {
+    this.selectedCategory = category
+    this.id = ''
   }
- ]
-
- checked: boolean = false;
 
 
+  get categoryTotals() {
+    const totals: { [key: string]: number } = {};
+    
+    this.expenses.forEach(expense => {
+      totals[expense.category] = (totals[expense.category] || 0) + expense.amount;
+    });
+    
+    return Object.keys(totals).map(category => ({
+      name: category,
+      value: totals[category]
+    }));
+  }
 
 
+get grandTotal() {
+  return this.expenses.reduce((sum, expense) => sum + expense.amount, 0);
+}
+
+
+
+  loadExpenses() {
+    const saved = localStorage.getItem('expenses');
+    if (saved) {
+      this.expenses = JSON.parse(saved);
+    } else {
+      // Default data if nothing saved
+      this.expenses = [
+        { id: 'abt92', name: "Netflix", amount: 15.99, date: "2025-10-01", category: "Subscriptions", description: "Monthly streaming subscription" },
+        // ... your other default expenses
+      ];
+    }
+  }
+
+  saveExpenses() {
+    localStorage.setItem('expenses', JSON.stringify(this.expenses));
+  }
 
 }
 

@@ -2,18 +2,18 @@
 
 .app-wrapper {
     display: flex;
-    border: 10px solid rgb(119, 48, 40);
+    /* border: 10px solid rgb(119, 48, 40); */
     flex-direction: column;
     
 }
 
 .sidebar-nav {
-    border: 10px solid rgb(44, 100, 148);
+    /* border: 10px solid rgb(44, 100, 148); */
 }
 
 .left-box {
     justify-content: left;
-    border: 10px solid mistyrose;
+    /* border: 10px solid mistyrose; */
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -30,17 +30,25 @@
 }
 
 .leftbox-item {
-    border: 10px solid red;
+    /* border: 10px solid red; */
     flex: 1;
+    /* padding: 10px; */
+    margin: 10px;
+}
 
-
+.leftbox-item:hover {
+    background-color: rgb(224, 224, 224);
 }
 
 .rightbox-item {
-    border: 10px solid rgb(5, 9, 24);
+    /* border: 10px solid rgb(5, 9, 24); */
     flex: 1;
 
 }
 
+
+.delete {
+    background-color: aqua;
+}
 
 

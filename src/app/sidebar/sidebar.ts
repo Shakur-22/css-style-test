@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, input, ViewChild } from '@angular/core';
 import { DrawerModule } from 'primeng/drawer';
 import { ButtonModule } from 'primeng/button';
 import { Ripple } from 'primeng/ripple';
@@ -6,6 +6,8 @@ import { AvatarModule } from 'primeng/avatar';
 import { StyleClass } from 'primeng/styleclass';
 import { Drawer } from 'primeng/drawer';
 import { CategoryService } from '../category.service';
+import { CommonModule } from '@angular/common';
+
 
 
 interface Expense {
@@ -22,7 +24,7 @@ interface Expense {
     templateUrl: './sidebar.html',
     styleUrl: './sidebar.css',
     standalone: true,
-    imports: [DrawerModule, ButtonModule, Ripple, AvatarModule, StyleClass]
+    imports: [DrawerModule, ButtonModule, Ripple, AvatarModule, StyleClass, CommonModule]
 })
 export class Sidebar {
     @ViewChild('drawerRef') drawerRef!: Drawer;
@@ -34,18 +36,25 @@ export class Sidebar {
     visible: boolean = false;
 
 
-    test() {
-      alert('test')
-    }
 
 
-activeCategory = 'All Categories'
 
-  constructor(public categoryService: CategoryService) {}
 
-  selectCategory(category: string) {
-    this.categoryService.activeCategory = category;
-  }
 
+
+
+ @Input() addForm: boolean = false;
+ @Input() selectedCategory!: string
+
+ @Output() toggleForm = new EventEmitter<void>()
+ @Output() changeCategory = new EventEmitter<string>()
+
+ onAddExpenseClick() {
+  this.toggleForm.emit()
+ }
+
+ onChangeCategory(category: string) {
+  this.changeCategory.emit(category)
+ }
 
 }
